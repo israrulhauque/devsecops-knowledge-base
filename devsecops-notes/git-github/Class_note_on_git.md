@@ -1,7 +1,7 @@
 Bilkul bhai. Maine tumhare uploaded **Azure DevOps Learning diagram** ko base banaya hai. Isme mainly **Git + GitHub + branching + staging/commit + reset** wale concepts hain. Main ise **simple notes + interview answer + production usage** ke format mein samjha raha hoon.
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+```
 # Topics needed to clear one-by-one:
 
 Azure DevOps fundamentals
@@ -33,7 +33,7 @@ Manual Approval
 Stage / Job / Step / Task / Command
 
 The diagram also shows a practical flow involving GitHub → Azure Repo → Self-hosted Agent → Terraform → Azure.
-
+```
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Git — Interview + Production Notes
