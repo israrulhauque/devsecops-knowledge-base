@@ -834,7 +834,7 @@ Ye tumhare **Azure DevOps + Terraform + DevSecOps interviews** ke liye strong fo
 
 ## complete Azure DevOps + Git + Terraform CI/CD production workflow
 Diagram mein ye topics clearly present hain:
-
+```
 → Azure DevOps fundamentals
 → Organization → Project → Team → Users → Permissions
 → Azure Repos
@@ -862,9 +862,10 @@ Diagram mein ye topics clearly present hain:
 → Terraform workflow — init → fmt → validate → plan → apply
 → Manual Approval
 → Stage / Job / Step / Task / Command
-
+```
+```
 The diagram also shows a practical flow involving GitHub → Azure Repo → Self-hosted Agent → Terraform → Azure.
-
+```
 ## Azure DevOps — Complete Interview + Production Notes
 # 1. Azure DevOps kya hai?
 Simple
@@ -882,6 +883,7 @@ Azure DevOps
 ├── Azure Artifacts
 └── Azure Wiki
 ```
+```
 Easy memory
 Boards    → Work / Tickets
 Repos     → Source Code
@@ -889,7 +891,7 @@ Pipelines → CI/CD
 Test      → Testing
 Artifacts → Packages
 Wiki      → Documentation
-
+```
 # Interview Answer
 Azure DevOps is a cloud-based DevOps platform from Microsoft that provides tools for planning, source control, CI/CD, testing, package management, and collaboration.
 
@@ -1040,13 +1042,13 @@ Validation
 main
 ```
 # Branch policies mein commonly:
-
+```
 Pull Request required
 Minimum reviewers
 Build validation
 Comment resolution
 Work item linking
-
+```
 # Interview
 # Q: Why protect main branch?
 To prevent unreviewed or untested changes from directly reaching the production branch.
@@ -1091,7 +1093,9 @@ terraform apply
 | Clean environment per job | Environment can be customized   |
 
 # Simple rule
+```
 Quick CI/CD
 → Microsoft Hosted
 Custom tools / private network / special requirements
 → Self Hosted
+```
