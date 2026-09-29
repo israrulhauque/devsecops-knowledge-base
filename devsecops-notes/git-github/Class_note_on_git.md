@@ -1,6 +1,6 @@
 Bilkul bhai. Maine tumhare uploaded **Azure DevOps Learning diagram** ko base banaya hai. Isme mainly **Git + GitHub + branching + staging/commit + reset** wale concepts hain. Main ise **simple notes + interview answer + production usage** ke format mein samjha raha hoon.
 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 # Topics needed to clear one-by-one:
 
@@ -34,7 +34,7 @@ Stage / Job / Step / Task / Command
 
 The diagram also shows a practical flow involving GitHub → Azure Repo → Self-hosted Agent → Terraform → Azure.
 ```
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Git — Interview + Production Notes
 
@@ -832,48 +832,47 @@ PRODUCTION
 
 Ye tumhare **Azure DevOps + Terraform + DevSecOps interviews** ke liye strong foundation hai.
 
-complete Azure DevOps + Git + Terraform CI/CD production workflow
+## complete Azure DevOps + Git + Terraform CI/CD production workflow
 Diagram mein ye topics clearly present hain:
 
-Azure DevOps fundamentals
-Organization → Project → Team → Users → Permissions
-Azure Repos
-GitHub → Azure Repo migration
-Git / Git Clone
-Main branch protection
-Self-hosted Agent
-Agent Pool
-Microsoft-hosted vs Self-hosted Agent
-Classic Pipeline
-YAML Pipeline
-Terraform pipeline
-Azure CLI / az login
-Hardcoded credentials vs Service Connection
-Variables
-Variable Groups
-Parameters
-Secrets
-Artifacts
-Approvals
-Templates
-Parallel Jobs
-Pipeline failures & troubleshooting
-Pipeline structure — Organization → Project → Repo → Pipeline → Agent
-Terraform workflow — init → fmt → validate → plan → apply
-Manual Approval
-Stage / Job / Step / Task / Command
+→ Azure DevOps fundamentals
+→ Organization → Project → Team → Users → Permissions
+→ Azure Repos
+→ GitHub → Azure Repo migration
+→ Git / Git Clone
+→ Main branch protection
+→ Self-hosted Agent
+→ Agent Pool
+→ Microsoft-hosted vs Self-hosted Agent
+→ Classic Pipeline
+→ YAML Pipeline
+→ Terraform pipeline
+→ Azure CLI / az login
+→ Hardcoded credentials vs Service Connection
+→ Variables
+→ Variable Groups
+→ Parameters
+→ Secrets
+→ Artifacts
+→ Approvals
+→ Templates
+→ Parallel Jobs
+→ Pipeline failures & troubleshooting
+→ Pipeline structure — Organization → Project → Repo → Pipeline → Agent
+→ Terraform workflow — init → fmt → validate → plan → apply
+→ Manual Approval
+→ Stage / Job / Step / Task / Command
 
 The diagram also shows a practical flow involving GitHub → Azure Repo → Self-hosted Agent → Terraform → Azure.
 
-So haan bhai, kaafi important topics miss hue the. Ab main remaining topics ko exactly tumhare requested style mein cover kar raha hoon.
-
-Azure DevOps — Complete Interview + Production Notes
-#1. Azure DevOps kya hai?
+## Azure DevOps — Complete Interview + Production Notes
+# 1. Azure DevOps kya hai?
 Simple
 
 Azure DevOps ek SaaS platform hai jisme software development lifecycle ke multiple tools ek jagah milte hain.
 
 Main services:
+```
 Azure DevOps
 │
 ├── Azure Boards
@@ -882,6 +881,7 @@ Azure DevOps
 ├── Azure Test Plans
 ├── Azure Artifacts
 └── Azure Wiki
+```
 Easy memory
 Boards    → Work / Tickets
 Repos     → Source Code
@@ -890,21 +890,21 @@ Test      → Testing
 Artifacts → Packages
 Wiki      → Documentation
 
-Interview Answer
-
+# Interview Answer
 Azure DevOps is a cloud-based DevOps platform from Microsoft that provides tools for planning, source control, CI/CD, testing, package management, and collaboration.
 
-#2. Azure DevOps Organization
+# 2. Azure DevOps Organization
 
 Organization sabse upper-level container hai.
 
 Example:
+```
 Azure DevOps Organization
         │
         ├── Project A
         ├── Project B
         └── Project C
-
+```
 Example:
 https://dev.azure.com/mycompany
 
@@ -912,9 +912,9 @@ Production use
 
 Ek organization ke andar company ke multiple projects maintain kiye ja sakte hain.
 
-#3. Azure DevOps Project
-
+# 3. Azure DevOps Project
 Project ke andar actual development resources hote hain.
+```
 Organization
      │
      ▼
@@ -925,46 +925,47 @@ Organization
      ├── Pipelines
      ├── Artifacts
      └── Test Plans
-
+```
 Example
 Organization: Vistara Technologies
-
+```
 Projects:
 ├── IoT Platform
 ├── Banking Application
 └── Azure Infrastructure
-
-#4. Team
-
+```
+# 4. Team
 Project ke andar teams hoti hain.
+```
 Project
    │
    ├── Dev Team
    ├── QA Team
    └── DevOps Team
+```
 Team ko work items aur permissions assign ki ja sakti hain.
 
-#5. Users & Permissions
+# 5. Users & Permissions
 
 Production environment mein har user ko unnecessary permission nahi deni chahiye.
 
 Example:
+```
 DevOps Team
      │
      ├── Developer
      ├── QA
      └── DevOps Engineer
-
-#Principle
-
-#Least Privilege
+```
+# Principle
+# Least Privilege
 User ko sirf utni permission do jitni usko kaam ke liye required hai.
 
-#6. Azure Repos
-
+# 6. Azure Repos
 Azure Repos source-code management ke liye use hota hai.
 
 Example:
+```
 Azure Repos
     │
     └── Terraform Repository
@@ -972,12 +973,12 @@ Azure Repos
          ├── main.tf
          ├── variables.tf
          └── outputs.tf
-
+```
 Azure Repos Git repositories support karta hai.
 
-#7. GitHub se Azure Repos Migration
-
+# 7. GitHub se Azure Repos Migration
 Tumhare diagram mein specifically ye scenario diya hua hai:
+```
 GitHub
    │
    │ Migration
@@ -986,14 +987,13 @@ Azure Repos
    │
    ▼
 Azure Pipeline
-
-#Practical approach
+```
+# Practical approach
 
 Repository clone:
 ```
 git clone <github-repository>
 ```
-
 Azure Repo configure:
 ```
 git remote add origin <azure-repo>
@@ -1003,27 +1003,30 @@ Then:
 git push -u origin main
 ```
 
-#Production concept
+# Production concept
 
 Migration ke baad:
+```
 GitHub
    ↓
 Azure Repos
    ↓
 Azure Pipelines
-
-#8. Main Branch Protection ⭐
+```
+# 8. Main Branch Protection ⭐
 
 Production mein main branch ko direct modification se protect karna important hai.
 
 Bad practice:
+```
 Developer
    ↓
 main
    ↓
 Production
-
-#Better:
+```
+# Better:
+```
 Developer
    ↓
 Feature Branch
@@ -1035,8 +1038,8 @@ Review
 Validation
    ↓
 main
-
-#Branch policies mein commonly:
+```
+# Branch policies mein commonly:
 
 Pull Request required
 Minimum reviewers
@@ -1044,19 +1047,16 @@ Build validation
 Comment resolution
 Work item linking
 
-#Interview
-
-#Q: Why protect main branch?
-
+# Interview
+# Q: Why protect main branch?
 To prevent unreviewed or untested changes from directly reaching the production branch.
 
-#9. Self-Hosted Agent ⭐⭐⭐
-
+# 9. Self-Hosted Agent ⭐⭐⭐
 Ye tumhare current practical Azure DevOps setup se bhi directly related hai.
-
 Self-hosted agent = apni machine/server par Azure DevOps agent install karna.
 
 Architecture:
+```
 Azure DevOps
       │
       ▼
@@ -1067,16 +1067,17 @@ Self-Hosted Agent
       │
       ▼
 Your Windows/Linux Server
-
+```
 Agent pipeline ke commands execute karta hai.
 
 Example:
-
+```
 Pipeline
    ↓
 terraform init
 terraform plan
 terraform apply
+```
 → Agent ye commands execute karega.
 
 #10. Microsoft-Hosted vs Self-Hosted Agent
@@ -1089,7 +1090,7 @@ terraform apply
 | Less maintenance          | More maintenance                |
 | Clean environment per job | Environment can be customized   |
 
-#Simple rule
+# Simple rule
 Quick CI/CD
 → Microsoft Hosted
 Custom tools / private network / special requirements
