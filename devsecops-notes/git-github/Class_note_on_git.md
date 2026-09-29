@@ -1,6 +1,6 @@
 Bilkul bhai. Maine tumhare uploaded **Azure DevOps Learning diagram** ko base banaya hai. Isme mainly **Git + GitHub + branching + staging/commit + reset** wale concepts hain. Main ise **simple notes + interview answer + production usage** ke format mein samjha raha hoon.
 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 # Topics needed to clear one-by-one:
 
@@ -831,3 +831,772 @@ PRODUCTION
 ```
 
 Ye tumhare **Azure DevOps + Terraform + DevSecOps interviews** ke liye strong foundation hai.
+
+Azure DevOps — Complete Interview + Production Notes
+1. Azure DevOps kya hai?
+Simple
+
+Azure DevOps ek SaaS platform hai jisme software development lifecycle ke multiple tools ek jagah milte hain.
+
+Main services:
+
+Azure DevOps
+│
+├── Azure Boards
+├── Azure Repos
+├── Azure Pipelines
+├── Azure Test Plans
+├── Azure Artifacts
+└── Azure Wiki
+Easy memory
+Boards    → Work / Tickets
+Repos     → Source Code
+Pipelines → CI/CD
+Test      → Testing
+Artifacts → Packages
+Wiki      → Documentation
+Interview Answer
+
+Azure DevOps is a cloud-based DevOps platform from Microsoft that provides tools for planning, source control, CI/CD, testing, package management, and collaboration.
+
+2. Azure DevOps Organization
+
+Organization sabse upper-level container hai.
+
+Example:
+
+Azure DevOps Organization
+        │
+        ├── Project A
+        ├── Project B
+        └── Project C
+
+Example:
+
+https://dev.azure.com/mycompany
+Production use
+
+Ek organization ke andar company ke multiple projects maintain kiye ja sakte hain.
+
+3. Azure DevOps Project
+
+Project ke andar actual development resources hote hain.
+
+Organization
+     │
+     ▼
+  Project
+     │
+     ├── Boards
+     ├── Repos
+     ├── Pipelines
+     ├── Artifacts
+     └── Test Plans
+Example
+Organization: Vistara Technologies
+
+Projects:
+├── IoT Platform
+├── Banking Application
+└── Azure Infrastructure
+4. Team
+
+Project ke andar teams hoti hain.
+
+Project
+   │
+   ├── Dev Team
+   ├── QA Team
+   └── DevOps Team
+
+Team ko work items aur permissions assign ki ja sakti hain.
+
+5. Users & Permissions
+
+Production environment mein har user ko unnecessary permission nahi deni chahiye.
+
+Example:
+
+DevOps Team
+     │
+     ├── Developer
+     ├── QA
+     └── DevOps Engineer
+Principle
+
+Least Privilege
+
+User ko sirf utni permission do jitni usko kaam ke liye required hai.
+
+6. Azure Repos
+
+Azure Repos source-code management ke liye use hota hai.
+
+Example:
+
+Azure Repos
+    │
+    └── Terraform Repository
+         │
+         ├── main.tf
+         ├── variables.tf
+         └── outputs.tf
+
+Azure Repos Git repositories support karta hai.
+
+7. GitHub se Azure Repos Migration
+
+Tumhare diagram mein specifically ye scenario diya hua hai:
+
+GitHub
+   │
+   │ Migration
+   ▼
+Azure Repos
+   │
+   ▼
+Azure Pipeline
+Practical approach
+
+Repository clone:
+
+git clone <github-repository>
+
+Azure Repo configure:
+
+git remote add origin <azure-repo>
+
+Then:
+
+git push -u origin main
+Production concept
+
+Migration ke baad:
+
+GitHub
+   ↓
+Azure Repos
+   ↓
+Azure Pipelines
+8. Main Branch Protection ⭐
+
+Production mein main branch ko direct modification se protect karna important hai.
+
+Bad practice:
+
+Developer
+   ↓
+main
+   ↓
+Production
+
+Better:
+
+Developer
+   ↓
+Feature Branch
+   ↓
+Pull Request
+   ↓
+Review
+   ↓
+Validation
+   ↓
+main
+
+Branch policies mein commonly:
+
+Pull Request required
+Minimum reviewers
+Build validation
+Comment resolution
+Work item linking
+Interview
+
+Q: Why protect main branch?
+
+To prevent unreviewed or untested changes from directly reaching the production branch.
+
+9. Self-Hosted Agent ⭐⭐⭐
+
+Ye tumhare current practical Azure DevOps setup se bhi directly related hai.
+
+Self-hosted agent = apni machine/server par Azure DevOps agent install karna.
+
+Architecture:
+
+Azure DevOps
+      │
+      ▼
+Agent Pool
+      │
+      ▼
+Self-Hosted Agent
+      │
+      ▼
+Your Windows/Linux Server
+
+Agent pipeline ke commands execute karta hai.
+
+Example:
+
+Pipeline
+   ↓
+terraform init
+terraform plan
+terraform apply
+
+Agent ye commands execute karega.
+
+10. Microsoft-Hosted vs Self-Hosted Agent
+Microsoft Hosted	Self Hosted
+Microsoft manages machine	You manage machine
+Temporary environment	Persistent environment possible
+Easy setup	Agent installation required
+Pre-installed tools	You control tools
+Less maintenance	More maintenance
+Clean environment per job	Environment can be customized
+Simple rule
+Quick CI/CD
+→ Microsoft Hosted
+
+Custom tools / private network / special requirements
+→ Self Hosted
+11. Agent Pool
+
+Agent pool = agents ka logical group.
+
+Agent Pool
+│
+├── Agent-01
+├── Agent-02
+└── Agent-03
+
+Pipeline agent pool select karti hai.
+
+Example:
+
+pool:
+  name: israr-org-pool-1
+Production benefit
+
+Multiple agents hone par workload distribute kiya ja sakta hai.
+
+12. Classic Pipeline vs YAML Pipeline
+Classic
+
+GUI based:
+
+Azure DevOps Portal
+       ↓
+Create Pipeline
+       ↓
+Select Tasks
+       ↓
+Configure
+YAML
+
+Pipeline code ke form mein:
+
+trigger:
+- main
+
+steps:
+- script: echo "Hello"
+Production
+
+Modern DevOps environments mein YAML ka major advantage:
+
+Pipeline itself becomes code and can be version controlled.
+
+13. Pipeline Structure ⭐⭐⭐
+
+Ye interview mein bahut important hai.
+
+Pipeline
+   │
+   └── Stage
+         │
+         └── Job
+               │
+               └── Step
+                     │
+                     └── Task
+
+Example:
+
+Pipeline
+│
+├── Build Stage
+│    └── Build Job
+│         ├── Checkout
+│         ├── Terraform Init
+│         └── Terraform Validate
+│
+└── Deploy Stage
+     └── Deploy Job
+          ├── Terraform Plan
+          ├── Approval
+          └── Terraform Apply
+Easy memory
+Stage = Big Phase
+Job   = Work unit
+Step  = Execution block
+Task  = Specific action
+14. Command
+
+Task ke andar actual command execute ho sakta hai.
+
+Example:
+
+terraform init
+terraform validate
+terraform plan
+terraform apply
+15. Terraform Pipeline Flow ⭐⭐⭐
+
+Tumhare diagram ka major production workflow:
+
+Git
+ ↓
+Clone
+ ↓
+Terraform Init
+ ↓
+Terraform Format
+ ↓
+Terraform Validate
+ ↓
+Terraform Plan
+ ↓
+Manual Approval
+ ↓
+Terraform Apply
+16. terraform init
+
+Backend aur required providers/modules initialize karta hai.
+
+terraform init
+
+Production example:
+
+Azure Storage Account
+       ↓
+Terraform Remote Backend
+       ↓
+terraform init
+17. terraform fmt
+
+Terraform code formatting:
+
+terraform fmt
+
+Purpose:
+
+Code ko standard Terraform formatting mein maintain karna.
+
+Pipeline mein:
+
+terraform fmt -check
+
+use karna useful hai.
+
+18. terraform validate
+
+Terraform configuration syntax/configuration validate karta hai.
+
+terraform validate
+
+Important:
+
+validate infrastructure deploy nahi karta.
+
+19. terraform plan
+
+Plan batata hai ki Terraform kya change karega.
+
+terraform plan
+
+Example:
+
+Plan:
+2 to add
+1 to change
+0 to destroy
+
+Production mein apply se pehle plan review karna important hai.
+
+20. terraform apply
+
+Actual infrastructure changes apply karta hai.
+
+terraform apply
+
+Pipeline mein often:
+
+terraform apply --auto-approve
+
+Lekin production mein blindly --auto-approve use nahi karna chahiye.
+
+Better:
+
+Plan
+ ↓
+Review
+ ↓
+Approval
+ ↓
+Apply
+21. Manual Approval ⭐⭐⭐
+
+Production deployment ke before human approval.
+
+Terraform Plan
+      ↓
+Manual Approval
+      ↓
+Terraform Apply
+
+Example:
+
+Dev environment successful → Production deployment waiting for approval.
+
+Why?
+
+Accidental production changes prevent karne ke liye.
+
+22. az login
+
+Azure CLI authentication:
+
+az login
+
+Browser authentication ke through Azure account authenticate kar sakta hai.
+
+Then:
+
+az account show
+
+se current subscription information check kar sakte ho.
+
+23. Hardcoded Credentials ❌
+
+Bad practice:
+
+username = "admin"
+password = "Password123"
+
+Ya pipeline mein:
+
+client_secret: "xxxxxxxx"
+
+Production mein avoid karo.
+
+24. Service Connection ⭐⭐⭐
+
+Azure DevOps ko Azure resources ke saath securely authenticate karne ke liye Service Connection use ki ja sakti hai.
+
+Architecture:
+
+Azure DevOps Pipeline
+        │
+        ▼
+Service Connection
+        │
+        ▼
+Azure
+
+Instead of:
+
+Pipeline
+   ↓
+Hardcoded Password ❌
+
+Use:
+
+Pipeline
+   ↓
+Service Connection
+   ↓
+Azure
+Interview Answer
+
+A service connection provides an authenticated and authorized connection between Azure DevOps and an external service such as Azure.
+
+25. Variables
+
+Variables reusable values store karti hain.
+
+Example:
+
+variables:
+  environment: dev
+  location: westeurope
+
+Use:
+
+$(environment)
+Production examples
+environment
+resourceGroup
+location
+vmSize
+26. Variable Groups
+
+Multiple pipelines mein common variables chahiye to Variable Group useful hai.
+
+Variable Group
+│
+├── environment
+├── location
+├── resourceGroup
+└── other configuration
+
+Then multiple pipelines use kar sakti hain.
+
+Production benefit
+
+Centralized configuration.
+
+27. Parameters
+
+Variables aur parameters same nahi hote.
+
+Parameters pipeline ko template/runtime structure configure karne ke liye commonly use hote hain.
+
+Example:
+
+parameters:
+- name: environment
+  type: string
+  default: dev
+
+Possible values:
+
+dev
+qa
+prod
+Easy difference
+Variable  → Value/configuration
+
+Parameter → Pipeline behavior/structure
+28. Secrets ⭐⭐⭐
+
+Sensitive values:
+
+Password
+API Key
+Token
+Client Secret
+Certificate
+
+Pipeline YAML mein directly nahi rakhna chahiye.
+
+Better architecture:
+
+Azure Key Vault
+       ↓
+Secret
+       ↓
+Azure DevOps
+       ↓
+Pipeline
+Golden Rule
+
+Never hardcode secrets in source code or pipeline YAML.
+
+29. Artifacts
+
+Build ke output/package ko store aur consume karne ke liye artifacts use kiye ja sakte hain.
+
+Example:
+
+Build
+ ↓
+Package
+ ↓
+Artifact
+ ↓
+Release/Deployment
+
+Example:
+
+application.zip
+terraform-plan
+configuration files
+Interview
+
+An artifact is a versioned output produced by a build that can be consumed by later stages or deployments.
+
+30. Pipeline Templates ⭐
+
+Agar same YAML configuration multiple pipelines mein repeat ho rahi hai, template use kar sakte ho.
+
+Example:
+
+templates/
+├── terraform-init.yml
+├── terraform-plan.yml
+└── terraform-apply.yml
+
+Main pipeline:
+
+- template: templates/terraform-plan.yml
+Production benefit
+Less duplication
++
+Standardization
++
+Maintainability
+31. Parallel Jobs
+
+Multiple jobs simultaneously execute kar sakte hain if dependencies allow.
+
+Example:
+
+Build
+  │
+  ├── Unit Test
+  ├── Security Scan
+  └── Terraform Validate
+
+Ye parallel chal sakte hain.
+
+Then:
+
+       ↓
+Deployment
+Benefit
+
+Pipeline execution time reduce ho sakta hai.
+
+32. Pipeline Failure Troubleshooting ⭐⭐⭐
+
+Tumhare diagram mein production failures & troubleshooting bhi specifically included hai.
+
+Interview mein answer sirf:
+
+"Logs check karunga."
+
+itna nahi hona chahiye.
+
+Proper troubleshooting flow
+Pipeline Failed
+      ↓
+Identify Stage
+      ↓
+Identify Job
+      ↓
+Identify Task
+      ↓
+Read Error Log
+      ↓
+Check Agent
+      ↓
+Check Credentials
+      ↓
+Check Variables/Secrets
+      ↓
+Check Azure Permissions
+      ↓
+Reproduce Manually
+      ↓
+Fix
+      ↓
+Re-run
+33. Example: Terraform Pipeline Failed
+
+Suppose:
+
+terraform plan
+      ↓
+FAILED
+
+Check:
+
+Step 1
+
+Terraform version:
+
+terraform version
+Step 2
+
+Azure authentication.
+
+Step 3
+
+Service Connection.
+
+Step 4
+
+Subscription.
+
+Step 5
+
+Terraform backend.
+
+Step 6
+
+State lock.
+
+Step 7
+
+Variables.
+
+Step 8
+
+Permissions/RBAC.
+
+Step 9
+
+Terraform error logs.
+
+Ye production-level troubleshooting approach hai.
+
+34. Complete Production Architecture ⭐⭐⭐⭐⭐
+
+Ab tumhare diagram ka overall picture ye hai:
+
+                    DEVELOPER
+                        │
+                        ▼
+                 Feature Branch
+                        │
+                        ▼
+                 Azure Repos/GitHub
+                        │
+                        ▼
+                 Pull Request
+                        │
+                 Code Review
+                        │
+                        ▼
+                 Azure Pipeline
+                        │
+              ┌─────────┴─────────┐
+              │                   │
+           Build/CI            Deploy/CD
+              │                   │
+              ▼                   ▼
+       Terraform Init        Manual Approval
+              │                   │
+       Terraform Fmt              ▼
+              │             Terraform Apply
+       Terraform Validate         │
+              │                   ▼
+       Terraform Plan ────────► Azure
+              │
+              ▼
+        Artifact / Output
+
+Agent layer:
+
+Azure Pipeline
+      │
+      ▼
+Agent Pool
+      │
+      ├── Microsoft Hosted Agent
+      │
+      └── Self Hosted Agent
+
